@@ -4,17 +4,19 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>VOID MOTIF | Official</title>
+    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;800&display=swap" rel="stylesheet">
     <style>
         :root {
-            --bg: #000000;
+            --bg: #050505; /* Slightly lifted black for depth */
             --fg: #ffffff;
-            --accent: #00ff41; 
+            --accent: #00ff41; /* Phosphor Green */
+            --glow: rgba(0, 255, 65, 0.3);
         }
 
         body {
             background-color: var(--bg);
             color: var(--fg);
-            font-family: 'Courier New', Courier, monospace;
+            font-family: 'JetBrains Mono', monospace;
             display: flex;
             flex-direction: column;
             align-items: center;
@@ -23,72 +25,117 @@
             margin: 0;
             padding: 20px;
             text-transform: uppercase;
-            letter-spacing: 2px;
+            letter-spacing: 3px;
             overflow-x: hidden;
+        }
+
+        /* Oscilloscope Grid Background */
+        body::after {
+            content: "";
+            position: fixed;
+            top: 0; left: 0;
+            width: 100vw; height: 100vh;
+            background-image: 
+                linear-gradient(rgba(255,255,255,0.03) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(255,255,255,0.03) 1px, transparent 1px);
+            background-size: 40px 40px;
+            z-index: 1;
+            pointer-events: none;
         }
 
         .container {
             width: 100%;
-            max-width: 500px;
+            max-width: 450px;
             text-align: center;
             position: relative;
             z-index: 5;
         }
 
         header {
-            margin-bottom: 60px;
+            margin-bottom: 70px;
         }
 
         h1 {
-            font-size: 2.5rem;
-            font-weight: 900;
+            font-size: 2.8rem;
+            font-weight: 800;
             margin: 0;
-            line-height: 1;
+            line-height: 0.9;
+            letter-spacing: -2px;
+            text-shadow: 0 0 10px rgba(255,255,255,0.2);
         }
 
         .status {
-            font-size: 0.7rem;
+            font-size: 0.65rem;
             color: var(--accent);
-            margin-top: 10px;
+            margin-top: 15px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+        }
+
+        /* Pulsing Signal Dot */
+        .dot {
+            width: 6px;
+            height: 6px;
+            background-color: var(--accent);
+            border-radius: 50%;
+            display: inline-block;
+            box-shadow: 0 0 8px var(--accent);
+            animation: pulse 1.5s infinite;
+        }
+
+        @keyframes pulse {
+            0% { opacity: 1; transform: scale(1); }
+            50% { opacity: 0.4; transform: scale(1.2); }
+            100% { opacity: 1; transform: scale(1); }
         }
 
         .links {
             display: flex;
             flex-direction: column;
-            gap: 15px;
+            gap: 12px;
         }
 
         a {
             display: block;
-            padding: 15px;
-            border: 1px solid var(--fg);
+            padding: 18px;
+            border: 1px solid rgba(255, 255, 255, 0.15);
             color: var(--fg);
             text-decoration: none;
-            transition: all 0.2s ease;
-            font-weight: bold;
+            transition: all 0.3s cubic-bezier(0.23, 1, 0.32, 1);
+            font-size: 0.85rem;
+            font-weight: 400;
+            background: rgba(255, 255, 255, 0.02);
         }
 
         a:hover {
-            background-color: var(--fg);
-            color: var(--bg);
+            border-color: var(--accent);
+            color: var(--accent);
+            background: rgba(0, 255, 65, 0.05);
+            box-shadow: 0 0 15px var(--glow);
+            transform: translateY(-2px);
             cursor: crosshair;
         }
 
         footer {
-            margin-top: 80px;
-            font-size: 0.6rem;
-            opacity: 0.5;
-            line-height: 2;
+            margin-top: 100px;
+            font-size: 0.55rem;
+            opacity: 0.4;
+            line-height: 2.5;
+            letter-spacing: 1px;
         }
 
+        /* CRT Scanline Overlay */
         body::before {
             content: " ";
             display: block;
             position: fixed;
             top: 0; left: 0; bottom: 0; right: 0;
-            background: linear-gradient(rgba(18, 16, 16, 0) 50%, rgba(0, 0, 0, 0.25) 50%), linear-gradient(90deg, rgba(255, 0, 0, 0.06), rgba(0, 255, 0, 0.02), rgba(0, 0, 255, 0.06));
-            z-index: 2;
-            background-size: 100% 2px, 3px 100%;
+            background: linear-gradient(rgba(18, 16, 16, 0) 50%, rgba(0, 0, 0, 0.1) 50%), 
+                        linear-gradient(90deg, rgba(255, 0, 0, 0.03), rgba(0, 255, 0, 0.01), rgba(0, 0, 255, 0.03));
+            z-index: 10;
+            background-size: 100% 3px, 3px 100%;
             pointer-events: none;
         }
     </style>
@@ -97,22 +144,23 @@
 
     <div class="container">
         <header>
-            <h1>VOID MOTIF</h1>
-            <div class="status">● SIGNAL_ACTIVE</div>
+            <h1>VOID<br>MOTIF</h1>
+            <div class="status"><span class="dot"></span> SIGNAL_ACTIVE</div>
         </header>
 
         <div class="links">
-            <a href="https://voidmotif.bandcamp.com" target="_blank">BANDCAMP</a>
-            <a href="https://open.spotify.com/artist/1RqSEsOoxltiCNz8zgy6g9" target="_blank">SPOTIFY</a>
-            <a href="https://music.apple.com/us/artist/void-motif/1888812041" target="_blank">APPLE MUSIC</a>
-            <a href="https://music.youtube.com/channel/UC7lRlB61kPUJLARlr8kyyXw" target="_blank">YOUTUBE MUSIC</a>
-            <a href="#" target="_blank">SOUNDCLOUD</a>
-            <a href="https://www.instagram.com/voidmotif" target="_blank">INSTAGRAM</a>
+            <a href="https://voidmotif.bandcamp.com" target="_blank">BANDCAMP // LOSSLESS</a>
+            <a href="https://open.spotify.com/artist/1RqSEsOoxltiCNz8zgy6g9" target="_blank">SPOTIFY // STREAM</a>
+            <a href="https://music.apple.com/us/artist/void-motif/1888812041" target="_blank">APPLE MUSIC // STREAM</a>
+            <a href="https://music.youtube.com/channel/UC7lRlB61kPUJLARlr8kyyXw" target="_blank">YOUTUBE MUSIC // STREAM</a>
+            <a href="#" target="_blank">SOUNDCLOUD // CLOUD</a>
+            <a href="https://www.instagram.com/voidmotif" target="_blank">INSTAGRAM // SOCIAL</a>
         </div>
 
         <footer>
-            TR-909 // TB-303 // JUPITER-8 // AMPEX ATR-102<br>
-            LEEDS, UK // 2026
+            GENERATE: TR-909 // TB-303 // JUPITER-8<br>
+            PROCESS: AMPEX ATR-102 // STUDER A800<br>
+            ORIGIN: LEEDS, UK // ©2026
         </footer>
     </div>
 
